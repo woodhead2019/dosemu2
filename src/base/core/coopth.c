@@ -665,14 +665,15 @@ static int do_start(struct coopth_t *thr, struct coopth_state_t st, void *arg)
 
     if (thr->cur_thr >= MAX_COOP_RECUR_DEPTH) {
 	int i;
-	dosemu_error("Coopthreads recursion depth exceeded, %s off=%x\n",
-		thr->name, thr->off);
+	dosemu_error("Coopthreads recursion depth exceeded, %s(%li) off=%x\n",
+		thr->name, thr - coopthreads, thr->off);
 	for (i = 0; i < thr->cur_thr; i++) {
 	    error("\tthread %i state %i dbg 0x%016"PRIx64"\n",
 		    i, thr->pth[i].st.state,
 		    thr->ops->get_dbg_val(CIDX2(thr->tid, i)));
 	}
 	error("\tthread %i rejected\n", i);
+	coopth_dump(0);
 	exit(2);
 	return -1;
     }
