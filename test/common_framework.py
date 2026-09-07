@@ -1016,6 +1016,11 @@ class MyTestResult(unittest.TextTestResult):
             #if hasattr(self.stream, 'startTestRun'):       # doesn't seem to be necessary, leave here in case it is.
             #    self.stream.startTestRun = False
 
+        # Remove the logfiles which will trip the overall failure logic
+        if not self.no_unlink_logs:
+            for l in getattr(test, 'logfiles', {}).values():
+                l[0].unlink(missing_ok=True)
+
         if reason.startswith("ACCEPTEDFAIL\n"):
             if self.showAll:
                 if self.with_color_terminal:
@@ -1025,11 +1030,6 @@ class MyTestResult(unittest.TextTestResult):
             elif self.dots:
                 self.stream.write('M')
                 self.stream.flush()
-
-            # Remove the logfiles which will trip the overall failure logic
-            if not self.no_unlink_logs:
-                for _, l in test.logfiles.items():
-                    l[0].unlink(missing_ok=True)
             test.logfiles = {}
         else:
             super().addSkip(test, reason)
