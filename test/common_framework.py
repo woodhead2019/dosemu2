@@ -62,6 +62,7 @@ TEST_BINARIES = (
 # Freedos 1.4 packages
 TEST_FREEDOS_HOST = "https://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/repositories/1.4"
 TEST_FREEDOS_PKGS = (
+    'base/mem.zip',
     'devel/dj_make.zip',
     'devel/nasm.zip',
     'devel/watcomc.zip',
@@ -139,11 +140,12 @@ def get_test_binaries():
         ], stderr=STDOUT, cwd=tbindir)
 
     for zfile in TEST_FREEDOS_PKGS:
+        zout = zfile.rpartition('/')[-1]
         check_call([
             "wget",
             "--no-verbose",
             "--inet4-only",
-            "-O", f"{zfile.removeprefix('devel/')}",
+            "-O", f"{zout}",
             f"{TEST_FREEDOS_HOST}/{zfile}",
         ], stderr=STDOUT, cwd=tbindir)
 
@@ -1016,6 +1018,11 @@ class MyTestResult(unittest.TextTestResult):
             #if hasattr(self.stream, 'startTestRun'):       # doesn't seem to be necessary, leave here in case it is.
             #    self.stream.startTestRun = False
 
+        # Remove the logfiles which will trip the overall failure logic
+        if not self.no_unlink_logs:
+            for l in getattr(test, 'logfiles', {}).values():
+                l[0].unlink(missing_ok=True)
+
         if reason.startswith("ACCEPTEDFAIL\n"):
             if self.showAll:
                 if self.with_color_terminal:
@@ -1025,11 +1032,6 @@ class MyTestResult(unittest.TextTestResult):
             elif self.dots:
                 self.stream.write('M')
                 self.stream.flush()
-
-            # Remove the logfiles which will trip the overall failure logic
-            if not self.no_unlink_logs:
-                for _, l in test.logfiles.items():
-                    l[0].unlink(missing_ok=True)
             test.logfiles = {}
         else:
             super().addSkip(test, reason)
