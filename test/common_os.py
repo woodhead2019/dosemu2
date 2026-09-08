@@ -27,7 +27,7 @@ def drdos701(baseclass, actions):
 
         @classmethod
         def setUpClass(cls):
-            super(DRDOS701TestCase, cls).setUpClass()
+            super().setUpClass()
             cls.version = "Caldera OpenDOS 7.01"
             cls.prettyname = "DR-DOS-7.01"
             cls.files = [
@@ -76,7 +76,7 @@ def frdos120(baseclass, actions):
 
         @classmethod
         def setUpClass(cls):
-            super(FRDOS120TestCase, cls).setUpClass()
+            super().setUpClass()
             cls.version = "FreeDOS kernel 2042"
             cls.prettyname = "FR-DOS-1.20"
             cls.files = [
@@ -121,7 +121,7 @@ def frdos130(baseclass, actions):
 
         @classmethod
         def setUpClass(cls):
-            super(FRDOS130TestCase, cls).setUpClass()
+            super().setUpClass()
             cls.version = "FreeDOS kernel 2043"
             cls.prettyname = "FR-DOS-1.30"
             cls.files = [
@@ -219,7 +219,7 @@ def msdos622(baseclass, actions):
 
         @classmethod
         def setUpClass(cls):
-            super(MSDOS622TestCase, cls).setUpClass()
+            super().setUpClass()
             cls.version = "MS-DOS Version 6.22"
             cls.prettyname = "MS-DOS-6.22"
             cls.files = [
@@ -269,7 +269,7 @@ def msdos700(baseclass, actions):
 
         @classmethod
         def setUpClass(cls):
-            super(MSDOS700TestCase, cls).setUpClass()
+            super().setUpClass()
             cls.version = "Windows 95. [Version 4.00.950]"
             cls.prettyname = "MS-DOS-7.00"
             cls.files = [
@@ -328,7 +328,7 @@ def msdos710(baseclass, actions):
 
         @classmethod
         def setUpClass(cls):
-            super(MSDOS710TestCase, cls).setUpClass()
+            super().setUpClass()
             cls.version = "MS-DOS 7.1 [Version 7.10.1999]"
             cls.prettyname = "MS-DOS-7.10"
             cls.files = [
@@ -385,7 +385,7 @@ def ppdosgit(baseclass, actions):
 
         @classmethod
         def setUpClass(cls):
-            super(PPDOSGITTestCase, cls).setUpClass()
+            super().setUpClass()
             cls.version = "FDPP kernel"
             cls.prettyname = "PP-DOS-GIT"
             cls.actions = actions
