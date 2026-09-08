@@ -229,7 +229,7 @@ void tty_char_out(unsigned char ch, int s, int attr)
       dst = screen_adr(s) + 2 * (ypos*co + xpos);
       text_wrlock();
       WRITE_BYTE(dst, ch);
-      WRITE_BYTE(dst + 1, attr);
+      if(attr != -1) WRITE_BYTE(dst + 1, attr);
       text_wrunlock();
     }
     xpos++;
@@ -888,7 +888,7 @@ int int10(void) /* with dualmon */
           "tty put char: page %u, char 0x%02x '%c'\n",
           HI(bx), LO(ax), LO(ax) > ' ' && LO(ax) < 0x7f ? LO(ax) : ' '
         );
-        tty_char_out(LO(ax), READ_BYTE(BIOS_CURRENT_SCREEN_PAGE), 7);
+        tty_char_out(LO(ax), READ_BYTE(BIOS_CURRENT_SCREEN_PAGE), -1);
       }
       else {
         i10_deb(
